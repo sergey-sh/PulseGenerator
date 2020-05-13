@@ -27,11 +27,11 @@ Screenshots:
 
 main screen
 
+Select type pulse and click play button on bottom right conner screen.
+
 ![Setting](https://raw.githubusercontent.com/sergey-sh/PulseGenerator/master/screenshot/Screenshot_1589222301.png)
 
 settings
-
-Select type pulse and click play button on bottom right conner screen.
 
 Thanks 
 
