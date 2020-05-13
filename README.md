@@ -24,10 +24,12 @@ by result in app/build/outputs/apk/release/app-release-unsigned.apk according to
 Screenshots:
 
 ![Main screen](https://raw.githubusercontent.com/sergey-sh/PulseGenerator/master/screenshot/Screenshot_1589222274.png)
+
 main screen
 
 Screenshots:
 ![Setting](https://raw.githubusercontent.com/sergey-sh/PulseGenerator/master/screenshot/Screenshot_1589222301.png)
+
 settings
 
 Select type pulse and click play button on bottom right conner screen.
