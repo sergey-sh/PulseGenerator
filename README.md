@@ -27,7 +27,6 @@ Screenshots:
 
 main screen
 
-Screenshots:
 ![Setting](https://raw.githubusercontent.com/sergey-sh/PulseGenerator/master/screenshot/Screenshot_1589222301.png)
 
 settings
