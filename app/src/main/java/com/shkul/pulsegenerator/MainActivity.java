@@ -29,6 +29,7 @@ import com.shkul.pulsegenerator.service.digitalgenerator.WaveFormDigitalGenerato
 import com.shkul.pulsegenerator.service.digitalgenerator.WaveFormDigitalGeneratorPulse;
 import com.shkul.pulsegenerator.service.digitalgenerator.WaveFormDigitalGeneratorSaw;
 import com.shkul.pulsegenerator.service.digitalgenerator.WaveFormDigitalGeneratorTriangle;
+import com.shkul.pulsegenerator.service.digitalgenerator.WaveFormDigitalRC5sModulator;
 
 public class MainActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -92,6 +93,10 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 			digitalGenerator = new WaveFormDigitalGeneratorTriangle(waveGenerator);
 		} else if(currentTypeWave == 3) {
 			digitalGenerator = new WaveFormDigitalGeneratorSaw(waveGenerator);
+		} else if(currentTypeWave == 4) {
+			digitalGenerator = new WaveFormDigitalRC5sModulator(waveGenerator) {{
+				setParam(settingsData.message);
+			}};
 		}
 		if(digitalGenerator != null) {
 			digitalGenerator.setParam(settingsData.center);
@@ -113,14 +118,9 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 			+ "Volume: " + settingsData.volume + "%, "
 			+ "Mode: " + settingsData.mode.toString() + ", "
 			+ "Center: " + settingsData.center + "% "
+			+((currentTypeWave == 4) ? "Message: " + settingsData.message:"")
 			+ "</p>"
 		;
-		if(currentTypeWave == 4) {
-			content+= "<p>"
-				+ "Message: " + settingsData.message+ " "
-				+ "</p>"
-			;
-		}
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
 			detailText.setText(Html.fromHtml(content, Html.FROM_HTML_MODE_LEGACY));
 		} else {
@@ -137,7 +137,8 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 				new TypeWaveModel(R.drawable.ic_harmonic_wave, listTitle[0]),
 				new TypeWaveModel(R.drawable.ic_pulse_wave, listTitle[1]),
 				new TypeWaveModel(R.drawable.ic_triangle_wave, listTitle[2]),
-				new TypeWaveModel(R.drawable.ic_saw_wave, listTitle[3])
+				new TypeWaveModel(R.drawable.ic_saw_wave, listTitle[3]),
+				new TypeWaveModel(R.drawable.ic_rc5s_wave, listTitle[4]),
 		};
 
 		final TypeWaveListAdapter adapter = new TypeWaveListAdapter(this, listData);

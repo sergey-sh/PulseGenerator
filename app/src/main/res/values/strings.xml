@@ -8,6 +8,7 @@
         <item>Pulse</item>
         <item>Triangle</item>
         <item>Saw</item>
+        <item>RC-5s modulate</item>
     </string-array>
     <string name="title_activity_settings">Settings</string>
 

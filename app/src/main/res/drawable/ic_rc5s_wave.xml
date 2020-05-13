@@ -1,0 +1,11 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/ic_pulse_wave"
+        android:width="120dp"
+        android:height="60dp"
+        android:viewportWidth="120.0"
+        android:viewportHeight="60.0">
+    <path
+        android:strokeColor="#000000"
+        android:strokeWidth="2"
+        android:pathData="M0,8 h17 v44 h34 v-44 h17 v44 h17 v-44 h17 v44 h17"/>
+</vector>
