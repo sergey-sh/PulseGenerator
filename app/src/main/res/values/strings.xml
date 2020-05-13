@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">Pulse Generator</string>
+    <string name="action_settings">Settings</string>
+    <!-- Strings used for fragments for navigation -->
+
+    <string-array name="listWaveForm">
+        <item>Harmonic</item>
+        <item>Pulse</item>
+        <item>Triangle</item>
+        <item>Saw</item>
+    </string-array>
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Preference Titles -->
+    <string name="common_header">Common</string>
+    <string name="other_header">Other</string>
+
+    <!-- Common Preferences -->
+    <string name="signature_title">Frequency, Hz</string>
+    <string name="volume_title">Volume 0–100, %</string>
+    <string name="type_wave_mode_title">Stereo / Mono</string>
+    <string name="center_title">Center wave 0–100, %</string>
+
+    <!-- Other Preferences -->
+    <string name="message_title">Message send with modulation</string>
+
+</resources>

@@ -1,0 +1,42 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="@string/common_header">
+
+        <EditTextPreference
+            app:key="frequency"
+            app:title="@string/signature_title"
+            app:defaultValue="2400"
+            app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+            app:key="volume"
+            app:title="@string/volume_title"
+            app:defaultValue="100"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            app:defaultValue="stereo"
+            app:entries="@array/type_wave_mode_entries"
+            app:entryValues="@array/type_wave_mode_values"
+            app:key="type_wave_mode"
+            app:title="@string/type_wave_mode_title"
+            app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+            app:key="center"
+            app:title="@string/center_title"
+            app:defaultValue="50"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/other_header">
+
+        <EditTextPreference
+            app:key="message"
+            app:title="@string/message_title"
+            app:defaultValue="Red fox runs forward brown tail."
+            app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
+
+</PreferenceScreen>
