@@ -23,13 +23,15 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.shkul.pulsegenerator.adapter.TypeWaveListAdapter;
 import com.shkul.pulsegenerator.model.SettingsDataModel;
 import com.shkul.pulsegenerator.model.TypeWaveModel;
-import com.shkul.pulsegenerator.service.digitalgenerator.WaveFormDigitalGenerator;
 import com.shkul.pulsegenerator.service.WaveFormGenerator;
+import com.shkul.pulsegenerator.service.digitalgenerator.WaveFormDigitalGenerator;
 import com.shkul.pulsegenerator.service.digitalgenerator.WaveFormDigitalGeneratorHarmonic;
 import com.shkul.pulsegenerator.service.digitalgenerator.WaveFormDigitalGeneratorPulse;
 import com.shkul.pulsegenerator.service.digitalgenerator.WaveFormDigitalGeneratorSaw;
 import com.shkul.pulsegenerator.service.digitalgenerator.WaveFormDigitalGeneratorTriangle;
 import com.shkul.pulsegenerator.service.digitalgenerator.WaveFormDigitalRC5sModulator;
+
+import java.io.UnsupportedEncodingException;
 
 public class MainActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -95,7 +97,23 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 			digitalGenerator = new WaveFormDigitalGeneratorSaw(waveGenerator);
 		} else if(currentTypeWave == 4) {
 			digitalGenerator = new WaveFormDigitalRC5sModulator(waveGenerator) {{
-				setParam(settingsData.message);
+				if(settingsData.generateIncSequence || (settingsData.generateServoOne && (settingsData.byteAtPacket == 2))) {
+					setParam(null, settingsData.byteAtPacket, settingsData.generateIncSequence, settingsData.generateServoOne);
+				} else {
+					try {
+						byte[] data = settingsData.message.getBytes("US-ASCII");
+						if(settingsData.byteAtPacket>1) {
+							int div = data.length % settingsData.byteAtPacket;
+							if(div>0) {
+								byte[] padded_data = new byte[data.length+(settingsData.byteAtPacket-div)];
+								System.arraycopy(data, 0, padded_data, 0, data.length);
+								data = padded_data;
+							}
+						}
+						setParam(data, settingsData.byteAtPacket, settingsData.generateIncSequence, settingsData.generateServoOne);
+					} catch (UnsupportedEncodingException e) {
+					}
+				}
 			}};
 		}
 		if(digitalGenerator != null) {

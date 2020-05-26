@@ -24,5 +24,8 @@
 
     <!-- Other Preferences -->
     <string name="message_title">Message send with modulation</string>
+    <string name="byte_at_packet">Count byte at packet</string>
+    <string name="generateIncSequence">Message with incremental sequence</string>
+    <string name="generateServoOne">Message with servo 0 command 50%</string>
 
 </resources>

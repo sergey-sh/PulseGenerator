@@ -35,7 +35,22 @@
         <EditTextPreference
             app:key="message"
             app:title="@string/message_title"
-            app:defaultValue="Red fox runs forward brown tail."
+            app:defaultValue="Red fox runs forward brown tail..."
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            app:key="byteAtPacket"
+            app:title="@string/byte_at_packet"
+            app:defaultValue="1"
+            app:useSimpleSummaryProvider="true" />
+        <CheckBoxPreference
+            app:key="generateIncSequence"
+            app:title="@string/generateIncSequence"
+            app:defaultValue="false"
+            app:useSimpleSummaryProvider="true" />
+        <CheckBoxPreference
+            app:key="generateServoOne"
+            app:title="@string/generateServoOne"
+            app:defaultValue="false"
             app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
 

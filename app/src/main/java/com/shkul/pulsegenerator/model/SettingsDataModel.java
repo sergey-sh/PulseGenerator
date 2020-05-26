@@ -18,6 +18,9 @@ public class SettingsDataModel {
 	public SettingsDataModeModel mode;
 	public int center;
 	public String message;
+	public int byteAtPacket;
+	public boolean generateIncSequence;
+	public boolean generateServoOne;
 
 	public SettingsDataModel() {
 	}
@@ -34,6 +37,9 @@ public class SettingsDataModel {
 			mode = SettingsDataModeModel.valueOf(modeString);
 			center = Integer.parseInt(preferences.getString("center", "50"));
 			message = preferences.getString("message", "");
+			byteAtPacket = Integer.parseInt(preferences.getString("byteAtPacket", "1"));
+			generateIncSequence = preferences.getBoolean("generateIncSequence", false);
+			generateServoOne =  preferences.getBoolean("generateServoOne", false);
 		} catch(Exception e) {
 		}
 	}

@@ -2,8 +2,6 @@ package com.shkul.pulsegenerator.service.digitalgenerator;
 
 import com.shkul.pulsegenerator.service.WaveFormGenerator;
 
-import java.io.UnsupportedEncodingException;
-
 public class WaveFormDigitalRC5sModulator extends WaveFormDigitalGenerator {
 	// Similar UART 8N1
 	final private int charLength = 8;
@@ -13,39 +11,56 @@ public class WaveFormDigitalRC5sModulator extends WaveFormDigitalGenerator {
 	private short[] buffer;
 	private int countSamples;
 	private int period;
-	private String message;
+	private byte[] message;
+	private int byteAtPacket;
 
 	public WaveFormDigitalRC5sModulator(WaveFormGenerator parent) {
 		super(parent);
 	}
 
-	public void setParam(String message) {
-		this.message = message;
+	public void setParam(byte[] message) {
+		setParam(message, 1, false, false);
 	}
 
+	public void setParam(byte[] message,int byteAtPacket, boolean generateIncSequence, boolean generateServoOne) {
+		this.message = message;
+		this.byteAtPacket = byteAtPacket;
+		if(generateIncSequence) {
+			doGenerateIncSequence();
+		} else if(generateServoOne && (byteAtPacket == 2)) {
+			doGenerateServoOne();
+		}
+	}
 
+	// 10 - 1
+	// 01 - 0
 	public void init() {
 		if(message != null) {
 			period = parent.getSampleRate()/parent.getFrequency();
-			data = new short[period*(charLength+2+startByteLength)*message.length()];
-			try {
-				int j = 0;
-				for(byte c: message.getBytes("US-ASCII")) {
-					j = fillSetBit(data, j, startByteLength);
-					j = fillClearBit(data, j, 1);
+			data = new short[period*(charLength*byteAtPacket+2+startByteLength)*(message.length/byteAtPacket)];
+			int j = 0;
+			int i = 0;
+			int x;
+			while(i < message.length) {
+				j = fillSetBit(data, j, startByteLength);
+				j = fillClearBit(data, j, 1);
+				x = 0;
+				while(x<byteAtPacket && i < message.length) {
+					byte c = message[i];
 					byte mask = 1;
-					for(int n = 0;n<charLength;n++) {
-						if((c & mask) != 0) {
+					for (int n = 0; n < charLength; n++) {
+						if ((c & mask) != 0) {
 							j = fillSetBit(data, j, 1);
 						} else {
 							j = fillClearBit(data, j, 1);
 
 						}
-						mask<<=1;
+						mask <<= 1;
 					}
-					j = fillSetBit(data, j, 1);
+					x++;
+					i++;
 				}
-			} catch (UnsupportedEncodingException e) {
+				j = fillSetBit(data, j, 1);
 			}
 		}
 	}
@@ -72,6 +87,28 @@ public class WaveFormDigitalRC5sModulator extends WaveFormDigitalGenerator {
 	public int getCountSamples() {
 		return countSamples;
 	}
+
+	private void doGenerateIncSequence() {
+		int len = 0x100;
+		int div = len % byteAtPacket;
+		if(div>0) {
+			len+=(byteAtPacket-div);
+		}
+		message = new byte[len];
+		int i=0, j = 0;
+		while(i<message.length) {
+			message[i++] = (byte)(j & 0xFF);
+			j++;
+		}
+	}
+
+	private void doGenerateServoOne() {
+		message = new byte[2];
+		message[0] = 127;
+		byte servo = 0;
+		message[1] = (byte) ((((message[0] ^ (message[0] >> 4)) ^ servo) | 1) & 0x3F);
+	}
+
 
 	private int fillSamples(short[] buffer, int i, int countBits, short firstValue) {
 		for(int j=0;j<countBits;j++) {
